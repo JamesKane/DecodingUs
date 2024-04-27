@@ -1,26 +1,21 @@
-@import controllers.AssetsFinder
-@import forms.SignUpForm.Data
-@import org.webjars.play.WebJarsUtil
 @import play.api.data.Form
 @import play.api.i18n.Messages
 @import play.api.mvc.{AnyContent, Request}
 @import views.html.auth.passwordStrength
-@import views.html.{b4, helper}
+@import views.html.helper
 
-@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
-@(signUpForm: Form[Data])(implicit request: Request[AnyContent], messages: Messages)
-
-@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
+@()(implicit messages: Messages, assets: controllers.AssetsFinder)
+@(signUpForm: Form[Data])(implicit request: Request[AnyContent])
 
 @views.html.main(messages("sign.up.title")) {
     <fieldset class="col-md-6 col-md-offset-3">
         <legend>@messages("sign.up.account")</legend>
         @helper.form(action = controllers.routes.SignUpController.submit) {
             @helper.CSRF.formField
-            @b4.text(signUpForm("firstName"), Symbol("_hiddenLabel") -> messages("first.name"), Symbol("placeholder") -> messages("first.name"), Symbol("class") -> "form-control input-lg")
-            @b4.text(signUpForm("lastName"), Symbol("_hiddenLabel") -> messages("last.name"), Symbol("placeholder") -> messages("last.name"), Symbol("class") -> "form-control input-lg")
-            @b4.email(signUpForm("email"), Symbol("_hiddenLabel") -> messages("email"), Symbol("placeholder") -> messages("email"), Symbol("class") -> "form-control input-lg")
-            @passwordStrength(signUpForm("password"), Symbol("_hiddenLabel") -> messages("password"), Symbol("placeholder") -> messages("password"), Symbol("class") -> "form-control input-lg")
+            @helper.inputText(signUpForm("firstName"), Symbol("_label") -> messages("first.name"), Symbol("_placeholder") -> messages("first.name"), Symbol("_class") -> "form-control input-lg")
+            @helper.inputText(signUpForm("lastName"), Symbol("_label") -> messages("last.name"), Symbol("_placeholder") -> messages("last.name"), Symbol("_class") -> "form-control input-lg")
+            @helper.inputText(signUpForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> messages("email"), Symbol("_class") -> "form-control input-lg")
+            @passwordStrength(signUpForm("password"), Symbol("_label") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
             <div class="form-group">
                 <div>
                     <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.up")</button>
