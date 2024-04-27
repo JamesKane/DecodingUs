@@ -1,14 +1,12 @@
 package controllers
 
-import play.silhouette.impl.providers.GoogleTotpInfo
 import forms.ChangeUserNameForm
+import jakarta.inject.Inject
 import models.services.UserService
 import play.api.data.Form
-import play.api.libs.json.Json
-import play.twirl.api.{ Html, HtmlFormat }
+import play.silhouette.impl.providers.GoogleTotpInfo
 
-import jakarta.inject.Inject
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.ExecutionContext
 
 class UserController @Inject() (
                                  userService: UserService,
@@ -21,8 +19,7 @@ class UserController @Inject() (
     authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map {
       totpInfoOpt =>
         val userForm: Form[(Option[String], Option[String])] =
-          ChangeUserNameForm.form
-            .fill((request.identity.firstName, request.identity.lastName))
+          ChangeUserNameForm.form.fill((request.identity.firstName, request.identity.lastName))
         Ok(home(request.identity, userForm, totpInfoOpt))
     }
   }
@@ -34,27 +31,15 @@ class UserController @Inject() (
         errorForm => {
           authInfoRepository
             .find[GoogleTotpInfo](request.identity.loginInfo)
-            .map { totpInfoOpt =>
-              BadRequest(home(request.identity, errorForm, totpInfoOpt))
-            }
+            .map { totpInfoOpt => BadRequest(home(request.identity, errorForm, totpInfoOpt)) }
         },
         user => {
-          userService
-            .save(
-              request.identity.copy(firstName = user._1, lastName = user._2)
-            )
-            .flatMap(
-              u =>
+          userService.save(request.identity.copy(firstName = user._1, lastName = user._2))
+            .flatMap(u =>
                 authInfoRepository
                   .find[GoogleTotpInfo](request.identity.loginInfo)
                   .map { totpInfoOpt =>
-                    Ok(
-                      home(
-                        u,
-                        ChangeUserNameForm.form.fill((u.firstName, u.lastName)),
-                        totpInfoOpt
-                      )
-                    )
+                    Ok(home(u, ChangeUserNameForm.form.fill((u.firstName, u.lastName)), totpInfoOpt))
                   }
             )
         }
