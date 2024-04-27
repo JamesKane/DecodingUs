@@ -14,9 +14,16 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
 
   import profile.api._
 
-  override def adminUser(): Future[Option[User]] = ???
-
-  override def find(userID: UUID): Future[Option[User]] = ???
+  override def find(userID: UUID): Future[Option[User]] =  {
+    val query = for {
+      dbUser <- slickUsers.filter(_.id === userID)
+      dbUserLoginInfo <- slickUserLoginInfos.filter(_.userID === dbUser.id)
+      dbLoginInfo <- slickLoginInfos.filter(_.id === dbUserLoginInfo.loginInfoId)
+    } yield (dbUser, dbLoginInfo)
+    db.run(query.result.headOption).map { resultOption =>
+      resultOption.map { case (user, loginInfo) => mapUserFromDBModel(user, loginInfo) }
+    }
+  }
 
   override def find(loginInfo: LoginInfo, email: Option[String]): Future[Option[User]] = {
     val userQuery = for {
@@ -61,5 +68,29 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     // run actions and return user afterwards
     db.run(actions).map(_ => user)
   }
-  
+
+  override def adminUser(): Future[Option[User]] = {
+    val query = for {
+      dbUser <- slickUsers.filter(_.role === UserRoles.Admin.value)
+      dbUserLoginInfo <- slickUserLoginInfos.filter(_.userID === dbUser.id)
+      dbLoginInfo <- slickLoginInfos.filter(_.id === dbUserLoginInfo.loginInfoId)
+    } yield (dbUser, dbLoginInfo)
+
+    db.run(query.result.headOption).map { resultOption =>
+      resultOption.map { case (user: DbUser, loginInfo: DbLoginInfo) => mapUserFromDBModel(user, loginInfo) }
+    }
+  }
+
+  private def mapUserFromDBModel(user: DbUser, loginInfo: DbLoginInfo) = {
+    User(
+      user.userID,
+      LoginInfo(loginInfo.providerID, loginInfo.providerKey),
+      user.firstName,
+      user.lastName,
+      user.email,
+      user.avatarURL,
+      user.activated,
+      UserRoles.apply(user.role)
+    )
+  }
 }
