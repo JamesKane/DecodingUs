@@ -7,7 +7,7 @@ import java.time.ZonedDateTime
 import java.util.UUID
 
 trait AuthDbTableDefinitions {
-  protected val driver: JdbcProfile
+  protected lazy val driver: JdbcProfile
 
   import DUPostgresProfile.api._
 
