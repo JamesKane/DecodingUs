@@ -30,4 +30,8 @@ object SignInForm {
                    email: String,
                    password: String,
                    rememberMe: Boolean)
+  
+  object Data {
+    def unapply(data: Data): Option[(String, String, Boolean)] = Some((data.email, data.password, data.rememberMe))
+  }
 }

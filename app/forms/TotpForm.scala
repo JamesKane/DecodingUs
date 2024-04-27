@@ -33,4 +33,8 @@ object TotpForm {
                    sharedKey: String,
                    rememberMe: Boolean,
                    verificationCode: String = "")
+  
+  object Data {
+    def unapply(data: Data): Option[(UUID, String, Boolean, String)] = Some((data.userID, data.sharedKey, data.rememberMe, data.verificationCode))
+  }
 }

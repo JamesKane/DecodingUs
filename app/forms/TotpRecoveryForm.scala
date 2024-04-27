@@ -33,4 +33,8 @@ object TotpRecoveryForm {
                    sharedKey: String,
                    rememberMe: Boolean,
                    recoveryCode: String = "")
+  
+  object Data {
+    def unapply(data: Data): Option[(UUID, String, Boolean, String)] = Some((data.userID, data.sharedKey, data.rememberMe, data.recoveryCode))
+  }
 }

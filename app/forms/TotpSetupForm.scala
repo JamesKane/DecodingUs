@@ -37,4 +37,8 @@ object TotpSetupForm {
                    scratchCodes: Seq[PasswordInfo],
                    scratchCodesPlain: Seq[String],
                    verificationCode: String = "")
+  
+  object Data {
+    def unapply(data: Data): Option[(String, Seq[PasswordInfo], Seq[String], String)] = Some((data.sharedKey, data.scratchCodes, data.scratchCodesPlain, data.verificationCode))
+  }
 }

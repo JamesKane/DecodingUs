@@ -46,4 +46,8 @@ object SignUpForm {
                    lastName: String,
                    email: String,
                    password: String)
+  
+  object Data {
+    def unapply(data: Data): Option[(String, String, String, String)] = Some((data.firstName, data.lastName, data.email, data.password))
+  }
 }
