@@ -14,9 +14,9 @@
             <legend>@messages("sign.in.credentials")</legend>
             @helper.form(action = controllers.routes.SignInController.submit) {
                 @helper.CSRF.formField
-                @helper.inputText(signInForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> messages("email"), Symbol("_class") -> "form-control input-lg")
+                @helper.inputText(signInForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> "john@doe.org", Symbol("_class") -> "form-control input-lg")
                 @helper.inputPassword(signInForm("password"), Symbol("_hint") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
-                @helper.checkbox(signInForm("rememberMe"), Symbol("_text") -> messages("remember.me"), Symbol("_checked") -> "checked")
+                @helper.checkbox(signInForm("rememberMe"), Symbol("_text") -> messages("remember.me"), Symbol("checked") -> "checked")
                 <div class="form-group">
                     <div>
                         <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.in")</button>

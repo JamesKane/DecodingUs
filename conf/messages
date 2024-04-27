@@ -9,6 +9,8 @@ invalid.recovery.code = Invalid recovery code!
 access.denied = Access denied!
 could.not.authenticate = Could not authenticate with social provider! Please try again!
 
+index.title = Decoding Us
+
 home.title = Decoding Us - Home
 sign.up.title = Decoding Us - Sign Up
 sign.in.title = Decoding Us - Sign In
@@ -102,7 +104,7 @@ yahoo = Yahoo
 # Emails
 ##########
 
-email.from = Y-DNA-Warehouse <noreply@Decoding Us.org>
+email.from = Decoding Us <noreply@Decoding-Us.org>
 
 # Sign Up
 email.sign.up.subject = Welcome
@@ -147,7 +149,7 @@ navbar.home = Home
 
 footer.about = About
 footer.contact = Contact Us
-footer.data-policy = Data Use Policy
+footer.terms = Terms of Use
 footer.cookie-policy = Cookie Use
 footer.faq = FAQ
 footer.tiers = Membership Tiers
