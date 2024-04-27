@@ -143,9 +143,14 @@ navbar.experiments = T2T Experiment
 navbar.variant = Variant Index
 navbar.ydna-tree = Y-DNA Tree
 navbar.mtdna-tree = Mitochondrial Tree
+navbar.home = Home
 
-footer.data.policy = Data Use Policy
-contact = Contact Us
+footer.about = About
+footer.contact = Contact Us
+footer.data-policy = Data Use Policy
+footer.cookie-policy = Cookie Use
+footer.faq = FAQ
+footer.tiers = Membership Tiers
 
 cookie-use=Cookie Use
 
