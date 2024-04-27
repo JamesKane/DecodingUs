@@ -247,11 +247,11 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
     val settings = CookieAuthenticatorSettings(
       cookieName = config.getString("cookieName"),
       cookiePath = config.getString("cookiePath"),
-      cookieDomain = Option(config.getString("cookieDomain")),
+      cookieDomain = if (config.hasPath("cookieDomain")) Some(config.getString("cookieDomain")) else None,
       secureCookie = config.getBoolean("secureCookie"),
       httpOnlyCookie = config.getBoolean("httpOnlyCookie"),
-      sameSite = Option(config.getString("sameSite")).flatMap(v => Cookie.SameSite.parse(v)),
-      authenticatorExpiry = Duration.fromNanos(config.getDuration("expriationTime").toNanos)
+      sameSite = if (config.hasPath("sameSite")) Some(config.getString("sameSite")).flatMap(Cookie.SameSite.parse) else None,
+      authenticatorExpiry = Duration.fromNanos(config.getDuration("authenticatorExpiry").toNanos)
     )
     val authenticatorEncoder = new CrypterAuthenticatorEncoder(crypter)
 
@@ -306,11 +306,11 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
     val settings = CsrfStateSettings(
       cookieName = config.getString("cookieName"),
       cookiePath = config.getString("cookiePath"),
-      cookieDomain = Option(config.getString("cookieDomain")),
+      cookieDomain = if (config.hasPath("cookieDomain")) Some(config.getString("cookieDomain")) else None,
       secureCookie = config.getBoolean("secureCookie"),
       httpOnlyCookie = config.getBoolean("httpOnlyCookie"),
-      sameSite = Option(config.getString("sameSite")).flatMap(v => Cookie.SameSite.parse(v)),
-      expirationTime = Duration.fromNanos(config.getDuration("expriationTime").toNanos)
+      sameSite = if (config.hasPath("sameSite")) Some(config.getString("sameSite")).flatMap(Cookie.SameSite.parse) else None,
+      expirationTime = Duration.fromNanos(config.getDuration("expirationTime").toNanos)
     )
     new CsrfStateItemHandler(settings, idGenerator, signer)
   }
@@ -482,7 +482,7 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
       authorizationURL = Option(config.getString("authorizationURL")),
       accessTokenURL = config.getString("accessTokenURL"),
       redirectURL = Option(config.getString("redirectURL")),
-      apiURL = Option(config.getString("apiURL")),
+      apiURL = if(config.hasPath("apiURL")) Option(config.getString("apiURL")) else None,
       clientID = config.getString("clientID"),
       clientSecret = config.getString("clientSecret"),
       scope = Option(config.getString("scope"))
