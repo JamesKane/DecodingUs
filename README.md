@@ -1,4 +1,5 @@
 # Decoding Us
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 [Decoding-Us.com](https://decoding-us.com) is a platform to empower genetic genealogists, citizen scientists, and academics to explore the common origins of human-kind.
 
