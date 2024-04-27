@@ -10,6 +10,7 @@ val PLAY_SILHOUETTE_VERSION = "10.0.0"
 val PLAY_SLICK_VERSION = "6.1.0"
 libraryDependencies ++= Seq(
   guice,
+  ehcache,
   "org.playframework.silhouette" %% "play-silhouette" % PLAY_SILHOUETTE_VERSION,
   "org.playframework.silhouette" %% "play-silhouette-crypto-jca" % PLAY_SILHOUETTE_VERSION,
   "org.playframework.silhouette" %% "play-silhouette-password-bcrypt" % PLAY_SILHOUETTE_VERSION,

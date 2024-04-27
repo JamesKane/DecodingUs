@@ -24,7 +24,6 @@ import play.silhouette.impl.authenticators.*
 import play.silhouette.impl.providers.*
 import play.silhouette.impl.providers.oauth1.*
 import play.silhouette.impl.providers.oauth1.secrets.{CookieSecretProvider, CookieSecretSettings}
-import play.silhouette.impl.providers.oauth1.services.PlayOAuth1Service
 import play.silhouette.impl.providers.oauth2.*
 import play.silhouette.impl.providers.openid.YahooProvider
 import play.silhouette.impl.providers.openid.services.PlayOpenIDService
@@ -34,8 +33,7 @@ import play.silhouette.impl.util.*
 import play.silhouette.password.{BCryptPasswordHasher, BCryptSha256PasswordHasher}
 import play.silhouette.persistence.daos.{DelegableAuthInfoDAO, InMemoryAuthInfoDAO}
 import play.silhouette.persistence.repositories.DelegableAuthInfoRepository
-import utils.auth.{CustomSecuredErrorHandler, CustomUnsecuredErrorHandler}
-import utils.auth.DefaultEnv
+import utils.auth.{CustomSecuredErrorHandler, CustomUnsecuredErrorHandler, DefaultEnv}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.{Duration, FiniteDuration}
