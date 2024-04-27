@@ -17,9 +17,9 @@ import scala.concurrent.{ExecutionContext, Future}
  */
 class SignInController @Inject() (
                                    scc: SilhouetteControllerComponents,
-                                   signIn: views.html.signIn,
-                                   activateAccount: views.html.activateAccount,
-                                   totp: views.html.totp
+                                   signIn: views.html.auth.signIn,
+                                   activateAccount: views.html.auth.activateAccount,
+                                   totp: views.html.auth.totp
                                  )(implicit ex: ExecutionContext) extends AbstractAuthController(scc) {
 
   /**
