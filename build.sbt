@@ -20,11 +20,11 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.7.3",
   "com.github.tminglei" %% "slick-pg" % "0.22.1",
   "com.github.tminglei" %% "slick-pg_play-json" % "0.22.1",
-  "net.codingwell" %% "scala-guice" % "7.0.0",
   "com.iheart" %% "ficus" % "1.5.2",
   "com.github.samtools" % "htsjdk" % "4.1.0",
   "software.amazon.awssdk" % "s3" % "2.25.39",
   "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test,
+  "org.webjars" %% "webjars-play" % "3.0.1",
   "org.webjars" % "bootstrap" % "5.3.3",
   "org.webjars.npm" % "htmx.org" % "1.9.12"
 )
