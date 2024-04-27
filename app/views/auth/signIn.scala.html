@@ -5,7 +5,8 @@
 @import forms.SignInForm.Data
 @import play.silhouette.impl.providers.SocialProviderRegistry
 
-@(signInForm: Form[Data], socialProviders: SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages, assets: controllers.AssetsFinder)
+@import org.webjars.play.WebJarsUtil
+@(signInForm: Form[Data], socialProviders: SocialProviderRegistry)(implicit request: RequestHeader, webJarsUtil: WebJarsUtil, messages: Messages, assets: controllers.AssetsFinder)
 @views.html.main(messages("sign.in.title")) {
     <fieldset class="col-md-6 col-md-offset-3">
         <legend>@messages("sign.in.credentials")</legend>
@@ -30,7 +31,7 @@
                 <p>@messages("or.use.social")</p>
                 <div>
                 @for(p <- socialProviders.providers) {
-                    <a href="@controllers.routes.SocialAuthController.authenticate(p.id)" class="provider @p.id" title="@messages(p.id)"><img src="@assets.path(s"images/providers/${p.id}.png").url" width="64px" height="64px" alt="@messages(p.id)"></a>
+                    <a href="@controllers.routes.SocialAuthController.authenticate(p.id)" class="provider @p.id" title="@messages(p.id)"><img src="@assets.path(s"images/providers/${p.id}.png")" width="64px" height="64px" alt="@messages(p.id)"></a>
                 }
                 </div>
             </div>

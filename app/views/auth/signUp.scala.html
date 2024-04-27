@@ -1,11 +1,13 @@
+@import controllers.AssetsFinder
+@import forms.SignUpForm.Data
+@import org.webjars.play.WebJarsUtil
 @import play.api.data.Form
 @import play.api.i18n.Messages
 @import play.api.mvc.{AnyContent, Request}
 @import views.html.auth.passwordStrength
 @import views.html.helper
 
-@()(implicit messages: Messages, assets: controllers.AssetsFinder)
-@(signUpForm: Form[Data])(implicit request: Request[AnyContent])
+@(signUpForm: Form[Data])(implicit request: Request[AnyContent], webJarsUtil: WebJarsUtil, messages: Messages, assets: controllers.AssetsFinder)
 
 @views.html.main(messages("sign.up.title")) {
     <fieldset class="col-md-6 col-md-offset-3">
