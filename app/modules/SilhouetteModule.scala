@@ -2,7 +2,7 @@ package modules
 
 import com.google.inject.name.Named
 import com.google.inject.{AbstractModule, Provides}
-import com.typesafe.config.Config
+import com.typesafe.config.{Config, ConfigFactory}
 import controllers.{DefaultRememberMeConfig, DefaultSilhouetteControllerComponents, RememberMeConfig, SilhouetteControllerComponents}
 import models.daos.UserDAO
 import models.daos.impl.UserDAOImpl
@@ -38,7 +38,7 @@ import utils.auth.{CustomSecuredErrorHandler, CustomUnsecuredErrorHandler}
 import utils.auth.DefaultEnv
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.FiniteDuration
+import scala.concurrent.duration.{Duration, FiniteDuration}
 
 /**
  * The Guice module which wires all Silhouette dependencies.
@@ -137,9 +137,15 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("oauth1-token-secret-signer")
   def provideOAuth1TokenSecretSigner(configuration: Configuration): Signer = {
-    val config = configuration.underlying.as[JcaSignerSettings]("silhouette.oauth1TokenSecretProvider.signer")
+    val underlyingConfig = ConfigFactory.load()
+    val settingPath = "silhouette.oauth1TokenSecretProvider.signer"
+    if(underlyingConfig.hasPath(settingPath)) {
+      val settings = underlyingConfig.getConfig(settingPath)
+      new JcaSigner(JcaSignerSettings(settings.getString("key")))
+    } else {
+      throw new RuntimeException(s"Configuration for $settingPath not found")
+    }
 
-    new JcaSigner(config)
   }
 
   /**
@@ -150,9 +156,8 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("oauth1-token-secret-crypter")
   def provideOAuth1TokenSecretCrypter(configuration: Configuration): Crypter = {
-    val config = configuration.underlying.as[JcaCrypterSettings]("silhouette.oauth1TokenSecretProvider.crypter")
-
-    new JcaCrypter(config)
+    val config = getConfig("silhouette.oauth1TokenSecretProvider.crypter")
+    new JcaCrypter(JcaCrypterSettings(config.getString("key")))
   }
 
   /**
@@ -163,11 +168,10 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("csrf-state-item-signer")
   def provideCSRFStateItemSigner(configuration: Configuration): Signer = {
-    val config = configuration.underlying.as[JcaSignerSettings]("silhouette.csrfStateItemHandler.signer")
-
-    new JcaSigner(config)
+    val config = getConfig("silhouette.csrfStateItemHandler.signer")
+    new JcaSigner(JcaSignerSettings(config.getString("key")))
   }
-
+  
   /**
    * Provides the signer for the social state handler.
    *
@@ -176,9 +180,8 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("social-state-signer")
   def provideSocialStateSigner(configuration: Configuration): Signer = {
-    val config = configuration.underlying.as[JcaSignerSettings]("silhouette.socialStateHandler.signer")
-
-    new JcaSigner(config)
+    val config = getConfig("silhouette.socialStateHandler.signer")
+    new JcaSigner(JcaSignerSettings(config.getString("key")))
   }
 
   /**
@@ -189,9 +192,8 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("authenticator-signer")
   def provideAuthenticatorSigner(configuration: Configuration): Signer = {
-    val config = configuration.underlying.as[JcaSignerSettings]("silhouette.authenticator.signer")
-
-    new JcaSigner(config)
+    val config = getConfig("silhouette.authenticator.signer")
+    new JcaSigner(JcaSignerSettings(config.getString("key")))
   }
 
   /**
@@ -202,9 +204,8 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("authenticator-crypter")
   def provideAuthenticatorCrypter(configuration: Configuration): Crypter = {
-    val config = configuration.underlying.as[JcaCrypterSettings]("silhouette.authenticator.crypter")
-
-    new JcaCrypter(config)
+    val config = getConfig("silhouette.authenticator.crypter")
+    new JcaCrypter(JcaCrypterSettings(config.getString("key")))
   }
 
   /**
@@ -250,10 +251,19 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                                    configuration: Configuration,
                                    clock: Clock): AuthenticatorService[CookieAuthenticator] = {
 
-    val config = configuration.underlying.as[CookieAuthenticatorSettings]("silhouette.authenticator")
+    val config = getConfig("silhouette.authenticator")
+    val settings = CookieAuthenticatorSettings(
+      cookieName = config.getString("cookieName"),
+      cookiePath = config.getString("cookiePath"),
+      cookieDomain = Option(config.getString("cookieDomain")),
+      secureCookie = config.getBoolean("secureCookie"),
+      httpOnlyCookie = config.getBoolean("httpOnlyCookie"),
+      sameSite = Option(config.getString("sameSite")).flatMap(v => Cookie.SameSite.parse(v)),
+      authenticatorExpiry = Duration.fromNanos(config.getDuration("expriationTime").toNanos)
+    )
     val authenticatorEncoder = new CrypterAuthenticatorEncoder(crypter)
 
-    new CookieAuthenticatorService(config, None, signer, cookieHeaderEncoding, authenticatorEncoder, fingerprintGenerator, idGenerator, clock)
+    new CookieAuthenticatorService(settings, None, signer, cookieHeaderEncoding, authenticatorEncoder, fingerprintGenerator, idGenerator, clock)
   }
 
   /**
@@ -280,10 +290,12 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                                         @Named("oauth1-token-secret-crypter") crypter: Crypter,
                                         configuration: Configuration,
                                         clock: Clock): OAuth1TokenSecretProvider = {
-
-    val settings = configuration.underlying.as[CookieSecretSettings]("silhouette.oauth1TokenSecretProvider")
+    val value = "silhouette.oauth1TokenSecretProvider"
+    val settings: CookieSecretSettings = getCookieSecretSettings(value)
     new CookieSecretProvider(settings, signer, crypter, clock)
   }
+
+
 
   /**
    * Provides the CSRF state item handler.
@@ -298,7 +310,16 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                                    idGenerator: IDGenerator,
                                    @Named("csrf-state-item-signer") signer: Signer,
                                    configuration: Configuration): CsrfStateItemHandler = {
-    val settings = configuration.underlying.as[CsrfStateSettings]("silhouette.csrfStateItemHandler")
+    val config = getConfig("silhouette.csrfStateItemHandler")
+    val settings = CsrfStateSettings(
+      cookieName = config.getString("cookieName"),
+      cookiePath = config.getString("cookiePath"),
+      cookieDomain = Option(config.getString("cookieDomain")),
+      secureCookie = config.getBoolean("secureCookie"),
+      httpOnlyCookie = config.getBoolean("httpOnlyCookie"),
+      sameSite = Option(config.getString("sameSite")).flatMap(v => Cookie.SameSite.parse(v)),
+      expirationTime = Duration.fromNanos(config.getDuration("expriationTime").toNanos)
+    )
     new CsrfStateItemHandler(settings, idGenerator, signer)
   }
 
@@ -364,8 +385,8 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                                httpLayer: HTTPLayer,
                                socialStateHandler: SocialStateHandler,
                                configuration: Configuration): FacebookProvider = {
-
-    new FacebookProvider(httpLayer, socialStateHandler, configuration.underlying.as[OAuth2Settings]("silhouette.facebook"))
+    val settings: OAuth2Settings = getOauth2Settings("silhouette.facebook")
+    new FacebookProvider(httpLayer, socialStateHandler, settings)
   }
 
   /**
@@ -382,7 +403,7 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                              socialStateHandler: SocialStateHandler,
                              configuration: Configuration): GoogleProvider = {
 
-    new GoogleProvider(httpLayer, socialStateHandler, configuration.underlying.as[OAuth2Settings]("silhouette.google"))
+    new GoogleProvider(httpLayer, socialStateHandler, getOauth2Settings("silhouette.google"))
   }
 
   /**
@@ -399,43 +420,7 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                          socialStateHandler: SocialStateHandler,
                          configuration: Configuration): VKProvider = {
 
-    new VKProvider(httpLayer, socialStateHandler, configuration.underlying.as[OAuth2Settings]("silhouette.vk"))
-  }
-
-  /**
-   * Provides the Twitter provider.
-   *
-   * @param httpLayer The HTTP layer implementation.
-   * @param tokenSecretProvider The token secret provider implementation.
-   * @param configuration The Play configuration.
-   * @return The Twitter provider.
-   */
-  @Provides
-  def provideTwitterProvider(
-                              httpLayer: HTTPLayer,
-                              tokenSecretProvider: OAuth1TokenSecretProvider,
-                              configuration: Configuration): TwitterProvider = {
-
-    val settings = configuration.underlying.as[OAuth1Settings]("silhouette.twitter")
-    new TwitterProvider(httpLayer, new PlayOAuth1Service(settings), tokenSecretProvider, settings)
-  }
-
-  /**
-   * Provides the Xing provider.
-   *
-   * @param httpLayer The HTTP layer implementation.
-   * @param tokenSecretProvider The token secret provider implementation.
-   * @param configuration The Play configuration.
-   * @return The Xing provider.
-   */
-  @Provides
-  def provideXingProvider(
-                           httpLayer: HTTPLayer,
-                           tokenSecretProvider: OAuth1TokenSecretProvider,
-                           configuration: Configuration): XingProvider = {
-
-    val settings = configuration.underlying.as[OAuth1Settings]("silhouette.xing")
-    new XingProvider(httpLayer, new PlayOAuth1Service(settings), tokenSecretProvider, settings)
+    new VKProvider(httpLayer, socialStateHandler, getOauth2Settings("silhouette.vk"))
   }
 
   /**
@@ -452,7 +437,13 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                             client: OpenIdClient,
                             configuration: Configuration): YahooProvider = {
 
-    val settings = configuration.underlying.as[OpenIDSettings]("silhouette.yahoo")
+    val config = getConfig("silhouette.yahoo")
+    val settings = OpenIDSettings(
+      providerURL = config.getString("providerURL"), 
+      callbackURL = config.getString("callbackURL"), 
+      axRequired = Map(),
+      realm = Option(config.getString("realm"))
+    )
     new YahooProvider(httpLayer, new PlayOpenIDService(client, settings), settings)
   }
 
@@ -466,10 +457,55 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
   def providesRememberMeConfig(configuration: Configuration): RememberMeConfig = {
     val c = configuration.underlying
     DefaultRememberMeConfig(
-      expiry = c.as[FiniteDuration]("silhouette.authenticator.rememberMe.authenticatorExpiry"),
-      idleTimeout = c.getAs[FiniteDuration]("silhouette.authenticator.rememberMe.authenticatorIdleTimeout"),
-      cookieMaxAge = c.getAs[FiniteDuration]("silhouette.authenticator.rememberMe.cookieMaxAge")
+      expiry = getConfigDuration(c, "silhouette.authenticator.rememberMe.authenticatorExpiry").get,
+      idleTimeout = getConfigDuration(c, "silhouette.authenticator.rememberMe.authenticatorIdleTimeout"),
+      cookieMaxAge = getConfigDuration(c, "silhouette.authenticator.rememberMe.cookieMaxAge")
     )
+  }
+
+  private def getCookieSecretSettings(value: String) = {
+    val config = getConfig(value)
+    val duration = "expriationTime"
+    val settings = CookieSecretSettings(
+      cookieName = config.getString("cookieName"),
+      cookiePath = config.getString("cookiePath"),
+      cookieDomain = Option(config.getString("cookieDomain")),
+      secureCookie = config.getBoolean("secureCookie"),
+      httpOnlyCookie = config.getBoolean("httpOnlyCookie"),
+      sameSite = Option(config.getString("sameSite")).flatMap(v => Cookie.SameSite.parse(v)),
+      expirationTime = getConfigDuration(config, duration).get
+    )
+    settings
+  }
+
+  private def getConfigDuration(config: Config, duration: String) = {
+    val javaDuration = config.getDuration(duration)
+    if(javaDuration == null) None
+    else Option(Duration.fromNanos(javaDuration.toNanos))
+  }
+
+  private def getOauth2Settings(value: String) = {
+    val config = getConfig(value)
+    val settings = OAuth2Settings(
+      authorizationURL = Option(config.getString("authorizationURL")),
+      accessTokenURL = config.getString("accessTokenURL"),
+      redirectURL = Option(config.getString("redirectURL")),
+      apiURL = Option(config.getString("apiURL")),
+      clientID = config.getString("clientID"),
+      clientSecret = config.getString("clientSecret"),
+      scope = Option(config.getString("scope"))
+    )
+    settings
+  }
+
+  private def getConfig(settingPath: String) = {
+    val underlyingConfig = ConfigFactory.load()
+    val settings = if (underlyingConfig.hasPath(settingPath)) {
+      underlyingConfig.getConfig(settingPath)
+    } else {
+      throw new RuntimeException(s"Configuration for $settingPath not found")
+    }
+    settings
   }
 
   @Provides

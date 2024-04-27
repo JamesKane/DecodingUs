@@ -1,5 +1,7 @@
 package models.daos.impl
 
-class AuthTokenDAOImpl {
+import models.daos.AuthTokenDAO
+
+class AuthTokenDAOImpl extends AuthTokenDAO {
 
 }

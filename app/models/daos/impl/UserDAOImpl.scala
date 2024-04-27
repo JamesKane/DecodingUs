@@ -1,5 +1,7 @@
 package models.daos.impl
 
-class UserDAOImpl {
+import models.daos.UserDAO
+
+class UserDAOImpl extends UserDAO {
 
 }
