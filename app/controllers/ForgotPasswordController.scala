@@ -18,7 +18,7 @@ import scala.language.postfixOps
  */
 class ForgotPasswordController @Inject()(
                                           components: SilhouetteControllerComponents,
-                                          forgotPassword: views.html.forgotPassword,
+                                          forgotPassword: views.html.auth.forgotPassword,
                                         )(implicit ex: ExecutionContext) extends SilhouetteController(components) {
 
   /**
