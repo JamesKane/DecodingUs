@@ -1,6 +1,6 @@
 package controllers
 
-import forms.SignInForm
+import forms.{SignInForm, TotpForm}
 import jakarta.inject.Inject
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, Request}
@@ -20,7 +20,7 @@ class SignInController @Inject() (
                                    signIn: views.html.auth.signIn,
                                    activateAccount: views.html.auth.activateAccount,
                                    totp: views.html.auth.totp
-                                 )(implicit ex: ExecutionContext) extends AbstractAuthController(scc) {
+                                 )(implicit ex: ExecutionContext, assets: AssetsFinder) extends AbstractAuthController(scc) {
 
   /**
    * Views the `Sign In` page.

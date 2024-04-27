@@ -18,7 +18,7 @@ class TotpController @Inject() (
                                  scc: SilhouetteControllerComponents,
                                  totp: views.html.auth.totp,
                                  home: views.html.home
-                               )(implicit ex: ExecutionContext) extends AbstractAuthController(scc) {
+                               )(implicit ex: ExecutionContext, assets: AssetsFinder) extends AbstractAuthController(scc) {
 
   /**
    * Views the `TOTP` page.

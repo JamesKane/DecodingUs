@@ -19,7 +19,7 @@ object TotpSetupForm {
           "hasher" -> nonEmptyText,
           "password" -> nonEmptyText,
           "salt" -> optional(nonEmptyText)
-        )(PasswordInfo.apply)(PasswordInfo.unapply)
+        )(PasswordInfo.apply)(Data.unapply)
       ),
       "scratchCodesPlain" -> seq(nonEmptyText),
       "verificationCode" -> nonEmptyText(minLength = 6, maxLength = 6)
@@ -39,6 +39,7 @@ object TotpSetupForm {
                    verificationCode: String = "")
   
   object Data {
+    def unapply(passwordInfo: PasswordInfo): Option[(String, String, Option[String])] = Some((passwordInfo.hasher, passwordInfo.password, passwordInfo.salt))
     def unapply(data: Data): Option[(String, Seq[PasswordInfo], Seq[String], String)] = Some((data.sharedKey, data.scratchCodes, data.scratchCodesPlain, data.verificationCode))
   }
 }
