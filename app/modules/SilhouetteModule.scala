@@ -37,7 +37,7 @@ import play.silhouette.password.{BCryptPasswordHasher, BCryptSha256PasswordHashe
 import play.silhouette.persistence.daos.{DelegableAuthInfoDAO, InMemoryAuthInfoDAO}
 import play.silhouette.persistence.repositories.DelegableAuthInfoRepository
 import utils.auth.{CustomSecuredErrorHandler, CustomUnsecuredErrorHandler}
-import utils.route.DefaultEnv
+import utils.auth.DefaultEnv
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration

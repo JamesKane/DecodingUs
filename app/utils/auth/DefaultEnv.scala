@@ -1,4 +1,4 @@
-package utils.route
+package utils.auth
 
 import models.User
 import play.silhouette.api.Env

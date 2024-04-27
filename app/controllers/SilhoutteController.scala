@@ -14,7 +14,7 @@ import play.api.http.FileMimeTypes
 import play.api.i18n.{I18nSupport, Langs, MessagesApi}
 import play.api.libs.mailer.MailerClient
 import play.api.mvc.*
-import utils.route.DefaultEnv
+import utils.auth.DefaultEnv
 
 import scala.concurrent.duration.FiniteDuration
 

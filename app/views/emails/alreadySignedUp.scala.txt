@@ -1,0 +1,12 @@
+@import play.api.i18n.Messages
+
+@(user: models.User, url: String)(implicit messages: Messages)
+@messages("email.already.signed.up.hello", user.name.getOrElse("user"))
+
+@messages("email.already.signed.up.txt.text", url)
+
+You have received this email because a new user account was requested. The email address is already registered.
+Please request a password reset, if you are unable to login.
+
+This message contains informational content. Please do not reply to this message.
+Replies to this message will not be read.
