@@ -23,7 +23,6 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.7.3",
   "com.github.tminglei" %% "slick-pg" % "0.22.1",
   "com.github.tminglei" %% "slick-pg_play-json" % "0.22.1",
-  "com.iheart" %% "ficus" % "1.5.2",
   "net.codingwell" %% "scala-guice" % "7.0.0",
   "com.github.samtools" % "htsjdk" % "4.1.0",
   "software.amazon.awssdk" % "s3" % "2.25.39",

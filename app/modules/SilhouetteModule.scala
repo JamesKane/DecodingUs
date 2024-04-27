@@ -8,8 +8,6 @@ import models.daos.UserDAO
 import models.daos.impl.UserDAOImpl
 import models.services.UserService
 import models.services.impl.UserServiceImpl
-import net.ceedubs.ficus.Ficus.*
-import net.ceedubs.ficus.readers.ValueReader
 import net.codingwell.scalaguice.ScalaModule
 import play.api.Configuration
 import play.api.libs.openid.OpenIdClient
@@ -46,26 +44,7 @@ import scala.concurrent.duration.FiniteDuration
  * The Guice module which wires all Silhouette dependencies.
  */
 class SilhouetteModule extends AbstractModule with ScalaModule {
-
-  /**
-   * A very nested optional reader, to support these cases:
-   * Not set, set None, will use default ('Lax')
-   * Set to null, set Some(None), will use 'No Restriction'
-   * Set to a string value try to match, Some(Option(string))
-   */
-  implicit val sameSiteReader: ValueReader[Option[Option[Cookie.SameSite]]] =
-    (config: Config, path: String) => {
-      if (config.hasPathOrNull(path)) {
-        if (config.getIsNull(path))
-          Some(None)
-        else {
-          Some(Cookie.SameSite.parse(config.getString(path)))
-        }
-      } else {
-        None
-      }
-    }
-
+  
   /**
    * Configures the module.
    */
