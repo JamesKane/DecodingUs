@@ -9,7 +9,11 @@ import models.User
 import scala.concurrent.Future
 
 /**
- * Handles actions to users.
+ * Handles actions related to users.
+ *
+ * This trait defines methods for retrieving, saving and updating user data. It also provides a method to retrieve an admin user.
+ *
+ * @tparam User The type of user object to be handled by this service.
  */
 trait UserService extends IdentityService[User] {
 
@@ -38,4 +42,13 @@ trait UserService extends IdentityService[User] {
    * @return The user for whom the profile was saved.
    */
   def save(profile: CommonSocialProfile): Future[User]
+
+  
+  /**
+   * Retrieves the admin user asynchronously.
+   *
+   * @return A future containing an optional Admin User. The Future will be completed with Some(User) if an admin user
+   *         exists, or None if no admin user is found.
+   */
+  def adminUser(): Future[Option[User]]
 }
