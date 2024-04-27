@@ -14,6 +14,12 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
 
   import profile.api._
 
+  /**
+   * Finds a user by their userID.
+   *
+   * @param userID The unique identifier of the user to find.
+   * @return A `Future` that will contain an `Option` of the found `User` if it exists, or `None` otherwise.
+   */
   override def find(userID: UUID): Future[Option[User]] =  {
     val query = for {
       dbUser <- slickUsers.filter(_.id === userID)
@@ -25,6 +31,13 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     }
   }
 
+  /**
+   * Finds a user based on login information and/or email.
+   *
+   * @param loginInfo The login information of the user to find.
+   * @param email     An optional email address to search for.
+   * @return A future containing an Option of the found User.
+   */
   override def find(loginInfo: LoginInfo, email: Option[String]): Future[Option[User]] = {
     val userQuery = for {
       dbLoginInfo <- loginInfoQuery(loginInfo)
@@ -43,6 +56,12 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     }
   }
 
+  /**
+   * Saves a User object to the database.
+   *
+   * @param user The User object to be saved.
+   * @return A Future wrapping the saved User object.
+   */
   override def save(user: User): Future[User] = {
     val dbUser = DbUser(user.userID, user.firstName, user.lastName, user.email, user.avatarURL, user.activated, user.role.value)
     val dbLoginInfo = DbLoginInfo(None, user.loginInfo.providerID, user.loginInfo.providerKey)
@@ -69,6 +88,12 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     db.run(actions).map(_ => user)
   }
 
+  /**
+   * Retrieves the admin user from the database.
+   *
+   * @return A Future containing an option of User. If an admin user is found, the Future will be completed with Some(User).
+   *         If no admin user is found, the Future will be completed with None.
+   */
   override def adminUser(): Future[Option[User]] = {
     val query = for {
       dbUser <- slickUsers.filter(_.role === UserRoles.Admin.value)
