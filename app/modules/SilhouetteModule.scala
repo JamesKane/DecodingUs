@@ -103,8 +103,6 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
    * @param facebookProvider The Facebook provider implementation.
    * @param googleProvider The Google provider implementation.
    * @param vkProvider The VK provider implementation.
-   * @param twitterProvider The Twitter provider implementation.
-   * @param xingProvider The Xing provider implementation.
    * @param yahooProvider The Yahoo provider implementation.
    * @return The Silhouette environment.
    */
@@ -113,16 +111,12 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
                                      facebookProvider: FacebookProvider,
                                      googleProvider: GoogleProvider,
                                      vkProvider: VKProvider,
-                                     twitterProvider: TwitterProvider,
-                                     xingProvider: XingProvider,
                                      yahooProvider: YahooProvider): SocialProviderRegistry = {
 
     SocialProviderRegistry(Seq(
       googleProvider,
       facebookProvider,
-      twitterProvider,
       vkProvider,
-      xingProvider,
       yahooProvider
     ))
   }

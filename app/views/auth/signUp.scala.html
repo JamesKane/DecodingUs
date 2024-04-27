@@ -7,8 +7,8 @@
 @import views.html.auth.passwordStrength
 @import views.html.helper
 
-@this()(implicit request: Request[AnyContent], webJarsUtil: WebJarsUtil)
-@(signUpForm: Form[Data])(implicit messages: Messages, assets: controllers.AssetsFinder)
+@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(signUpForm: Form[Data])(implicit request: Request[AnyContent], messages: Messages)
 
 @views.html.main(messages("sign.up.title")) {
     <fieldset class="col-md-6 col-md-offset-3">

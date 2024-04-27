@@ -6,9 +6,8 @@
 @import play.silhouette.impl.providers.SocialProviderRegistry
 @import org.webjars.play.WebJarsUtil
 
-@this()(implicit request: RequestHeader, webJarsUtil: WebJarsUtil)
-@(signInForm: Form[Data], socialProviders: SocialProviderRegistry)(implicit messages: Messages, assets: controllers.AssetsFinder)
-@views.html.main(messages("sign.in.title")) {
+@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(signInForm: Form[Data], socialProviders: SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages)@views.html.main(messages("sign.in.title")) {
     <fieldset class="col-md-6 col-md-offset-3">
         <legend>@messages("sign.in.credentials")</legend>
         @helper.form(action = controllers.routes.SignInController.submit) {
