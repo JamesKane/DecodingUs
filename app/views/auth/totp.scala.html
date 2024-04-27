@@ -8,18 +8,17 @@
 
 @import java.util.UUID
 
-@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
-@(totpForm: Form[Data])(implicit request: RequestHeader, messages: Messages)
+@(totpForm: Form[Data])(implicit request: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 
 @views.html.main(messages("sign.in.title")) {
     <fieldset class="col-md-6 col-md-offset-3">
         <legend>@messages("sign.in.totp")</legend>
         @helper.form(action = controllers.routes.TotpController.submit) {
             @helper.CSRF.formField
-            @helper.text(totpForm("verificationCode"), Symbol("_hiddenLabel") -> messages("totp.verification.code"), Symbol("placeholder") -> messages("totp.verification.code"), Symbol("autocomplete") -> "off", Symbol("class") -> "form-control input-lg")
-            @helper.hidden(totpForm("userID"))
-            @helper.hidden(totpForm("sharedKey"))
-            @helper.hidden(totpForm("rememberMe"))
+            @helper.inputText(totpForm("verificationCode"), Symbol("_hiddenLabel") -> messages("totp.verification.code"), Symbol("placeholder") -> messages("totp.verification.code"), Symbol("autocomplete") -> "off", Symbol("class") -> "form-control input-lg")
+            @helper.inputText(totpForm("userID"), Symbol("type") -> "hidden")
+            @helper.inputText(totpForm("sharedKey"), Symbol("type") -> "hidden")
+            @helper.inputText(totpForm("rememberMe"),Symbol("type") -> "hidden")
             <div class="form-group">
                 <div>
                     <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("totp.verify")</button>

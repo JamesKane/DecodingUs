@@ -13,10 +13,10 @@
         <legend>@messages("sign.in.totp.recovery")</legend>
         @helper.form(action = controllers.routes.TotpRecoveryController.submit) {
             @helper.CSRF.formField
-            @helper.text(totpRecoveryForm("recoveryCode"), Symbol("_hiddenLabel") -> messages("totp.recovery.code"), Symbol("placeholder") -> messages("totp.recovery.code"), Symbol("autocomplete") -> "off", Symbol("class") -> "form-control input-lg")
-            @helper.hidden(totpRecoveryForm("userID"))
-            @helper.hidden(totpRecoveryForm("sharedKey"))
-            @helper.hidden(totpRecoveryForm("rememberMe"))
+            @helper.inputText(totpRecoveryForm("recoveryCode"), Symbol("_hiddenLabel") -> messages("totp.recovery.code"), Symbol("placeholder") -> messages("totp.recovery.code"), Symbol("autocomplete") -> "off", Symbol("class") -> "form-control input-lg")
+            @helper.inputText(totpRecoveryForm("userID"), Symbol("type") -> "hidden")
+            @helper.inputText(totpRecoveryForm("sharedKey"), Symbol("type") -> "hidden")
+            @helper.inputText(totpRecoveryForm("rememberMe"), Symbol("type") -> "hidden")
             <div class="form-group">
                 <div>
                     <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("totp.verify")</button>
