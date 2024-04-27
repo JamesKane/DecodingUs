@@ -1,5 +1,6 @@
 package models.daos.impl
 
+import play.silhouette.api.LoginInfo
 import slick.jdbc.JdbcProfile
 import slick.lifted.ProvenShape
 
@@ -383,4 +384,9 @@ trait AuthDbTableDefinitions {
   val slickGoogleTotpCredentials = TableQuery[GoogleTotpCredentials]
   val slickTotpInfoScratchCodes = TableQuery[TotpInfoScratchCodes]
   val slickTotpCredScratchCodes = TableQuery[TotpCredScratchCodes]
+
+  // queries used in multiple places
+  def loginInfoQuery(loginInfo: LoginInfo) =
+    slickLoginInfos.filter(dbLoginInfo => dbLoginInfo.providerID === loginInfo.providerID && dbLoginInfo.providerKey === loginInfo.providerKey)
+
 }

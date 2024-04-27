@@ -24,9 +24,7 @@ case class User(
                  email: Option[String],
                  avatarURL: Option[String],
                  activated: Boolean,
-                 role: UserRoles,
-                 ipAddress: Option[String],
-                 lastLoginTime: Option[ZonedDateTime]
+                 role: UserRoles
                ) extends Identity {
 
   /**

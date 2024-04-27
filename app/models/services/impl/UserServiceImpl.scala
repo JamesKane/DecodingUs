@@ -69,9 +69,7 @@ class UserServiceImpl @Inject() (userDAO: UserDAO)(implicit ex: ExecutionContext
           email = profile.email,
           avatarURL = profile.avatarURL,
           activated = false,
-          role = UserRoles.User,
-          ipAddress = None,
-          lastLoginTime = Some(ZonedDateTime.now())
+          role = UserRoles.User
         ))
     }
   }

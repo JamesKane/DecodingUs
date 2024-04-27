@@ -54,7 +54,6 @@ class SignUpController @Inject()(
   // helper function to create new user
   private def createNewUser(data: SignUpForm.Data, loginInfo: LoginInfo, result: Result)(implicit request: Request[AnyContent]) = {
     val user = newUserFromFormData(data, loginInfo)
-      .copy(ipAddress = Some(request.remoteAddress))
     val passwordInfo = passwordHasherRegistry.current.hash(data.password)
     for {
       avatar <- avatarService.retrieveURL(data.email)
@@ -79,9 +78,7 @@ class SignUpController @Inject()(
       email = Some(data.email),
       avatarURL = None,
       activated = false,
-      role = UserRoles.User,
-      ipAddress = None,
-      lastLoginTime = None
+      role = UserRoles.User
     )
   }
 
