@@ -11,22 +11,24 @@
 @(signUpForm: Form[Data])(implicit request: Request[AnyContent], messages: Messages)
 
 @views.html.main(messages("sign.up.title")) {
-    <fieldset class="col-md-6 col-md-offset-3">
-        <legend>@messages("sign.up.account")</legend>
-        @helper.form(action = controllers.routes.SignUpController.submit) {
-            @helper.CSRF.formField
-            @helper.inputText(signUpForm("firstName"), Symbol("_label") -> messages("first.name"), Symbol("_placeholder") -> messages("first.name"), Symbol("_class") -> "form-control input-lg")
-            @helper.inputText(signUpForm("lastName"), Symbol("_label") -> messages("last.name"), Symbol("_placeholder") -> messages("last.name"), Symbol("_class") -> "form-control input-lg")
-            @helper.inputText(signUpForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> messages("email"), Symbol("_class") -> "form-control input-lg")
-            @passwordStrength(signUpForm("password"), Symbol("_label") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
-            <div class="form-group">
-                <div>
-                    <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.up")</button>
+    <div class="container">
+        <fieldset class="col-md-6 col-md-offset-3">
+            <legend>@messages("sign.up.account")</legend>
+            @helper.form(action = controllers.routes.SignUpController.submit) {
+                @helper.CSRF.formField
+                @helper.inputText(signUpForm("firstName"), Symbol("_label") -> messages("first.name"), Symbol("_placeholder") -> messages("first.name"), Symbol("_class") -> "form-control input-lg")
+                @helper.inputText(signUpForm("lastName"), Symbol("_label") -> messages("last.name"), Symbol("_placeholder") -> messages("last.name"), Symbol("_class") -> "form-control input-lg")
+                @helper.inputText(signUpForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> messages("email"), Symbol("_class") -> "form-control input-lg")
+                @passwordStrength(signUpForm("password"), Symbol("_label") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
+                <div class="form-group">
+                    <div>
+                        <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.up")</button>
+                    </div>
                 </div>
-            </div>
-            <div class="sign-in-now">
-                <p>@messages("already.a.member") <a href="@controllers.routes.SignInController.view">@messages("sign.in.now")</a></p>
-            </div>
-        }
-    </fieldset>
+                <div class="sign-in-now">
+                    <p>@messages("already.a.member") <a href="@controllers.routes.SignInController.view">@messages("sign.in.now")</a></p>
+                </div>
+            }
+        </fieldset>
+    </div>
 }

@@ -38,10 +38,10 @@
                 </li>
             }.getOrElse {
                 <li class="nav-item">
-                    <a class="nav-link" href="#">@messages("sign.in")</a>
+                    <a class="nav-link" href="@controllers.routes.SignInController.view">@messages("sign.in")</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">@messages("sign.up")</a>
+                    <a class="nav-link" href="@controllers.routes.SignUpController.view">@messages("sign.up")</a>
                 </li>
             }
             </ul>
