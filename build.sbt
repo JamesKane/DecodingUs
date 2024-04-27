@@ -23,6 +23,7 @@ libraryDependencies ++= Seq(
   "org.playframework" %% "play-slick-evolutions" % PLAY_SLICK_VERSION,
   "org.postgresql" % "postgresql" % "42.7.3",
   "com.github.tminglei" %% "slick-pg" % "0.22.1",
+  "com.github.tminglei" %% "slick-pg_jts" % "0.22.1",
   "com.github.tminglei" %% "slick-pg_play-json" % "0.22.1",
   "net.codingwell" %% "scala-guice" % "6.0.0",
   "com.github.samtools" % "htsjdk" % "4.1.0",
