@@ -1,6 +1,7 @@
 @import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
 
-@()(implicit request: RequestHeader, webjars: WebJarsUtil)
+@()(implicit request: RequestHeader, webjars: WebJarsUtil, messages: Messages)
 
 @main("Welcome to Decoding Us") {
   <div class="container">

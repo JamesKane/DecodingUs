@@ -1,4 +1,6 @@
-@()
+@import play.api.i18n.Messages
+
+@(user: Option[models.User])(implicit messages: Messages)
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary bg-gradient">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Decoding Us</a>
@@ -8,22 +10,40 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Y-DNA Tree</a>
+                    <a class="nav-link" aria-current="page" href="#">@messages("navbar.ydna-tree")</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mitochondrial Tree</a>
+                    <a class="nav-link" href="#">@messages("navbar.mtdna-tree")</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Academic References</a>
+                    <a class="nav-link" href="#">@messages("navbar.academic")</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
+            @user.map { u =>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign In</a>
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@u.name</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">@messages("navbar.profile")</a>
+                        <a class="dropdown-item" href="#">@messages("navbar.messages")</a>
+                        @if(u.loginInfo.providerID == play.silhouette.impl.providers.CredentialsProvider.ID) {
+                            <a class="dropdown-item" href="#">@messages("change.password")</a>
+                        }
+                        <a class="dropdown-item" href="#">@messages("sign.out")</a>
+                    </div>
+                </li>
+            }.getOrElse {
+                <li class="nav-item">
+                    <a class="nav-link" href="#">@messages("sign.in")</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign Up</a>
+                    <a class="nav-link" href="#">@messages("sign.up")</a>
                 </li>
+            }
             </ul>
         </div>
     </div>

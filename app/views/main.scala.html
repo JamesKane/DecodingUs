@@ -1,7 +1,8 @@
 @import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
 @import views.html.helper._
 
-@(title: String, user: Option[models.User] = None)(content: Html)(implicit request: RequestHeader, webjars: WebJarsUtil)
+@(title: String, user: Option[models.User] = None)(content: Html)(implicit request: RequestHeader, webjars: WebJarsUtil, messages: Messages)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +18,7 @@
         @webjars.locate("htmx.js").script(CSPNonce.attrMap)
     </head>
     <body>
-        @_navbar()
+        @_navbar(user)
 
         @content
 

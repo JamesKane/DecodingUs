@@ -8,11 +8,8 @@ import play.silhouette.impl.providers.GoogleTotpInfo
 
 import scala.concurrent.ExecutionContext
 
-class UserController @Inject() (
-                                 userService: UserService,
-                                 scc: SilhouetteControllerComponents,
-                                 home: views.html.home
-                               )(implicit ex: ExecutionContext)
+class UserController @Inject() (userService: UserService, scc: SilhouetteControllerComponents, home: views.html.home)
+                               (implicit ex: ExecutionContext)
   extends SilhouetteController(scc) {
 
   def index = SecuredAction.async { implicit request =>
