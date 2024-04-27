@@ -1,0 +1,16 @@
+@import play.api.data.Form
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import org.webjars.play.WebJarsUtil
+@import controllers.AssetsFinder
+@import play.silhouette.impl.providers.SocialProviderRegistry
+@import forms.SignInForm.Data
+
+@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(signInForm: Form[Data], socialProviders: SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages)
+
+@views.html.main(messages("sign.in.title")) {
+    <fieldset class="col-md-6 col-md-offset-3">
+        <legend>@messages("sign.in.credentials")</legend>
+    </fieldset>
+}

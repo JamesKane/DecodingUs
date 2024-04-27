@@ -9,11 +9,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        @* Here's where we render the page title `String`. *@
         <title>@title</title>
+        @webjars.locate("bootstrap.min.css").css(CSPNonce.attrMap)
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-        @webjars.locate("bootstrap.min.css").css(CSPNonce.attrMap)
         @webjars.locate("bootstrap.min.js").script(CSPNonce.attrMap)
         @webjars.locate("htmx.js").script(CSPNonce.attrMap)
     </head>
