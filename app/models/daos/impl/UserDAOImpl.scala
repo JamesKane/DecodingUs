@@ -82,10 +82,18 @@ class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     val actions = (for {
       _ <- slickUsers.insertOrUpdate(dbUser)
       loginInfo <- loginInfoAction
-      _ <- slickUserLoginInfos.insertOrUpdate(DbUserLoginInfo(dbUser.userID, loginInfo.id.get))
+      _ <- saveUserLoginInfo(DbUserLoginInfo(dbUser.userID, loginInfo.id.get))
     } yield ()).transactionally
     // run actions and return user afterwards
     db.run(actions).map(_ => user)
+  }
+
+  def saveUserLoginInfo(userLoginInfo: DbUserLoginInfo): DBIOAction[Int, NoStream, Effect.Read with Effect.Write] = {
+    val query = slickUserLoginInfos.filter(info => info.userID === userLoginInfo.userID && info.loginInfoId === userLoginInfo.loginInfoId).exists.result
+    query.flatMap { exists =>
+      if (exists) DBIO.successful(0)
+      else slickUserLoginInfos += userLoginInfo
+    }
   }
 
   /**
