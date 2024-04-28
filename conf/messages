@@ -73,6 +73,7 @@ change.password = Change password
 activate.account = Activate Account
 current.password = Current password
 new.password = New password
+click.agree = By clicking {0}, you agree to the terms of use.
 
 remember.me = Remember my login on this computer
 or.use.social = Or use your existing account on one of the following services to sign in:
