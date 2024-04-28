@@ -14,7 +14,7 @@ import utils.route.Calls
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val scc: SilhouetteControllerComponents)(implicit webjars: WebJarsUtil) extends SilhouetteController(scc) {
+class HomeController @Inject()(val scc: SilhouetteControllerComponents)(implicit webjars: WebJarsUtil, assets: AssetsFinder) extends SilhouetteController(scc) {
 
   /**
    * Create an Action to render an HTML page.

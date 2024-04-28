@@ -1,37 +1,24 @@
 @import org.webjars.play.WebJarsUtil
 @import play.api.i18n.Messages
 
-@()(implicit request: RequestHeader, webjars: WebJarsUtil, messages: Messages)
+@()(implicit request: RequestHeader, webjars: WebJarsUtil, messages: Messages, assets: AssetsFinder)
 
 @main("Welcome to Decoding Us") {
   <div class="container">
     <h1>@messages("index.title")</h1>
-    <p>Empowering individuals to unlock their ancestry through secure direct-to-consumer genetic analysis and fostering a collaborative scientific community by providing open access to anonymized Y-DNA and mtDNA data for genealogical research.</p>
+    <p class="col-lg-12 fs-4">Empowering individuals to unlock their ancestry through secure direct-to-consumer genetic analysis and fostering a collaborative scientific community by providing open access to anonymized Y-DNA and mtDNA data for genealogical research.</p>
     <div class="row align-items-center g-lg-5 py-5">
       <div class="col-lg-7 text-center text-lg-start">
         <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Join the search for our common origins</h1>
         <p class="col-lg-10 fs-4">Match your direct-to-consumer genetic testing results with other users, while helping build out the public Y chromosome and Mitochondrial DNA trees.</p>
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
-        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@@example.com">
-            <label for="floatingInput">Email address</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
-          </div>
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" value="remember-me"> Remember me
-            </label>
-          </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-          <hr class="my-4">
-          <small class="text-body-secondary">By clicking Sign in, you agree to the terms of use.</small>
-        </form>
+        <!-- Placeholder Art - Replace before launch -->
+        <img src="@assets.path("images/tree_placeholder.jpg")" width="300px" height="300px">
       </div>
+    </div>
+    <div class="col-md-12 fs-3 justify-content-center">
+      <p><a href="@controllers.routes.SignInController.view">Sign in</a> or <a href="@controllers.routes.SignUpController.view">Sign up</a> to participate and access services.</p>
     </div>
   </div>
 }
