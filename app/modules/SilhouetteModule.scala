@@ -63,21 +63,45 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
     bind[DelegableAuthInfoDAO[GoogleTotpInfo]].toInstance(new InMemoryAuthInfoDAO[GoogleTotpInfo])
   }
 
+  /**
+   * Provides an instance of DelegableAuthInfoDAO[PasswordInfo] by taking in a DatabaseConfigProvider
+   *
+   * @param dbConfig The DatabaseConfigProvider used for creating the PasswordInfoDAO instance
+   * @return An instance of DelegableAuthInfoDAO[PasswordInfo]
+   */
   @Provides
   def providePasswordInfo(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[PasswordInfo] = {
     new PasswordInfoDAO(dbConfig)
   }
 
+  /**
+   * Provides an instance of DelegableAuthInfoDAO[OAuth1Info] using the given DatabaseConfigProvider.
+   *
+   * @param dbConfig The DatabaseConfigProvider to be used for creating the OAuth1InfoDAO.
+   * @return An instance of DelegableAuthInfoDAO[OAuth1Info] created using the provided DatabaseConfigProvider.
+   */
   @Provides
   def provideOAuth1InfoDAO(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[OAuth1Info] = {
     new OAuth1InfoDAO(dbConfig)
   }
 
+  /**
+   * Provides an instance of `DelegableAuthInfoDAO[OAuth2Info]` using the given `dbConfig` as the database configuration provider.
+   *
+   * @param dbConfig The database configuration provider.
+   * @return An instance of `DelegableAuthInfoDAO[OAuth2Info]`.
+   */
   @Provides
   def provideOAuth2InfoDAO(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[OAuth2Info] = {
     new OAuth2InfoDAO(dbConfig)
   }
 
+  /**
+   * Provides an instance of DelegableAuthInfoDAO[OpenIDInfo].
+   *
+   * @param dbConfig The DatabaseConfigProvider used to initialize the OpenIDInfoDAO.
+   * @return An instance of DelegableAuthInfoDAO[OpenIDInfo].
+   */
   @Provides
   def provideOpenIDInfoDAO(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[OpenIDInfo] = {
     new OpenIDInfoDAO(dbConfig)
