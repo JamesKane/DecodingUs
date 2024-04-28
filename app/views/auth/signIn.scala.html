@@ -10,35 +10,49 @@
 @(signInForm: Form[Data], socialProviders: SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages)
 @views.html.main(messages("sign.in.title")) {
     <div class="container">
-        <fieldset class="col-md-6 col-md-offset-3">
-            <legend>@messages("sign.in.credentials")</legend>
-            @helper.form(action = controllers.routes.SignInController.submit) {
-                @helper.CSRF.formField
-                @helper.inputText(signInForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> "john@doe.org", Symbol("_class") -> "form-control input-lg")
-                @helper.inputPassword(signInForm("password"), Symbol("_hint") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
-                @helper.checkbox(signInForm("rememberMe"), Symbol("_text") -> messages("remember.me"), Symbol("checked") -> "checked")
-                <div class="form-group">
-                    <div>
-                        <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.in")</button>
+        <div class="row justify-content-center">
+            <fieldset class="col-md-6 col-md-offset-3">
+                <legend>@messages("sign.in.credentials")</legend>
+                @helper.form(action = controllers.routes.SignInController.submit) {
+                    @helper.CSRF.formField
+                    <fieldset class="row mb-3">
+                        <div class="col-md-12 mb-1">
+                            <label class="form-label">@messages("email")</label>
+                            <input type="email" class="form-control" name="email" value="@signInForm("email").value.getOrElse("")" placeholder="john@@doe.org" required>
+                        </div>
+                        <div class="col-md-12 mb-1">
+                            <label class="form-label">@messages("password")</label>
+                            <input type="password" class="form-control" name="password" value="@signInForm("password").value.getOrElse("")" data-pwd="true">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <input id="rememberCheck" class="form-check-input" type="checkbox" value="@signInForm("rememberMe").value.getOrElse("")">
+                                <label class="form-check-label" for="rememberCheck">@messages("remember.me")</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        <div>
+                            <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.in")</button>
+                        </div>
                     </div>
+                }
+                <div>
+                    <p class="not-a-member">@messages("not.a.member") <a href="@controllers.routes.SignUpController.view">@messages("sign.up.now")</a>
+                        | <a href="@controllers.routes.ForgotPasswordController.view" title="@messages("forgot.your.password")">@messages("forgot.your.password")</a></p>
                 </div>
-            }
 
-            <div>
-                <p class="not-a-member">@messages("not.a.member") <a href="@controllers.routes.SignUpController.view">@messages("sign.up.now")</a>
-                    | <a href="@controllers.routes.ForgotPasswordController.view" title="@messages("forgot.your.password")">@messages("forgot.your.password")</a></p>
-            </div>
-
-            @if(socialProviders.providers.nonEmpty) {
-                <div class="social-providers">
-                    <p>@messages("or.use.social")</p>
-                    <div>
-                    @for(p <- socialProviders.providers) {
-                        <a href="@controllers.routes.SocialAuthController.authenticate(p.id)" class="provider @p.id" title="@messages(p.id)"><img src="@assets.path(s"images/providers/${p.id}.png")" width="64px" height="64px" alt="@messages(p.id)"></a>
-                    }
+                @if(socialProviders.providers.nonEmpty) {
+                    <div class="social-providers">
+                        <p>@messages("or.use.social")</p>
+                        <div>
+                        @for(p <- socialProviders.providers) {
+                            <a href="@controllers.routes.SocialAuthController.authenticate(p.id)" class="provider @p.id" title="@messages(p.id)"><img src="@assets.path(s"images/providers/${p.id}.png")" width="64px" height="64px" alt="@messages(p.id)"></a>
+                        }
+                        </div>
                     </div>
-                </div>
-            }
-        </fieldset>
+                }
+            </fieldset>
+        </div>
     </div>
 }

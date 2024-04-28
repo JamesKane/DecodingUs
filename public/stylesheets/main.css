@@ -70,3 +70,35 @@ meter[value="4"]::-moz-meter-bar {
 meter::-webkit-meter-optimum-value {
     transition: width .4s ease-out;
 }
+
+.provider {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    outline: none;
+}
+
+.facebook {
+    background: #3B5998;
+}
+
+.google {
+    background: #D14836;
+}
+
+.twitter {
+    background: #00ACED;
+}
+
+.yahoo {
+    background: #731A8B;
+}
+
+.xing {
+    background: #006567;
+}
+
+.vk {
+    background: #567ca4;
+}
