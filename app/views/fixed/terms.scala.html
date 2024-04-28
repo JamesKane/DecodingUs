@@ -1,0 +1,70 @@
+@import controllers.AssetsFinder
+@import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+
+
+@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(user: Option[models.User])(implicit request: RequestHeader, messages: Messages)
+
+@main(messages("footer.terms"), user) {
+    <div class="container">
+        <h1>TODO:  This needs to be over-hauled for the new site</h1>
+        
+        <h1>Data Policy</h1>
+        <p>
+            This policy was created to balance the rights and privacy of individuals, with the benefit to the whole
+            community of gathering information for their research projects. We have tried to ensure the safety and
+            privacy of any personal data, including data likely to have significant medical relevance, or which can
+            identify a specific person. At the same time, we have tried to retain enough information that test results
+            are useful for research, meaningful for close matches and can be cross-referenced against information on
+            other sites.
+        </p>
+        <ol>
+            <li>
+                The following is the Policy agreed to on upload of data, between Submitters of that data (genetic
+                testers or their designated proxies) and the Project. The Project is defined as those persons with
+                administrative access to the data archive, or successors thereof.
+            </li>
+            <li>Submitters give the Project free license to analyse the genetic and ancestral data they submit, and
+                publicly release semi-anonymized and filtered analyses of that data. Records may be combined with data from
+                public domain sources, including any associable Y-STR and genealogical records. Released genetic data is to
+                be limited to calls assigned to the Y-chromosome.
+            </li>
+
+            <li>Raw DNA sequencing data (e.g. BAM or FASTQ datasets) will only be shared with a member&#39;s explicit
+                written consent. However, reduced sets of Y-chromosome data (including calls in VCF/gVCF format, test
+                coverage information in BED format, and submitted meta-data) may be shared with co-operating projects.
+            </li>
+
+            <li>Tests are publicly identified by the meta-data supplied on submission, i.e. kit numbers and most-distant
+                known paternal ancestor information. Project members may request that public reports anonymize all or
+                part of this information to an internal project identifier instead. Such requests should be made by
+                e-mail before submission to prevent public release of information.
+            </li>
+
+            <li>Submitters or legal data owners have the right to request that their raw data is removed from the data
+                analysis at any time. However, since we release a reduced set of data into the public domain, we cannot
+                guarantee these data are removed from external sites once the kit has been analyzed.
+            </li>
+            <li>
+                The Project may contact Submitters about specific queries regarding their data, using the e-mail address
+                supplied on submission. Sharing of e-mail addresses with any third parties will only be done with
+                Submitters&#39; consent.
+            </li>
+            <li>
+                Minor updates to this agreement may be necessary, e.g. to modify or make explicit the names of people
+                and parties; to include new data formats; to clarify specific points of ambiguity; or to ensure
+                compliance with national and international law, existing privacy agreements with testing companies,
+                or community guidelines. Such changes may me made by the Project without notification, provided they
+                don&#39;t constitute material infringements of the rights and/or privacy granted to Submitters, as described
+                in the version of the Policy they initially accept.
+            </li>
+            <li>
+                Decoding Us uses Cookies for the purposes of allowing users to manage their testing data.  Related
+                data may be use for functionality provided by third-parties such as necessary for operation of the site.
+                There is no direct commercial use of your meta-data.
+            </li>
+        </ol>
+    </div>
+}

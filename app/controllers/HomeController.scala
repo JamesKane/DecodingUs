@@ -15,7 +15,8 @@ import javax.inject.*
  */
 @Singleton
 class HomeController @Inject()(val scc: SilhouetteControllerComponents,
-                               cookieView: views.html.fixed.cookieUse)
+                               cookieView: views.html.fixed.cookieUse,
+                               termsView: views.html.fixed.terms)
                               (implicit webjars: WebJarsUtil, assets: AssetsFinder) extends SilhouetteController(scc) {
 
   /**
@@ -38,6 +39,10 @@ class HomeController @Inject()(val scc: SilhouetteControllerComponents,
     val result = Redirect(Calls.home)
     eventBus.publish(LogoutEvent(request.identity, request))
     authenticatorService.discard(request.authenticator, result)
+  }
+  
+  def terms = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    Ok(termsView(request.identity))
   }
 
   def cookieUse = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
