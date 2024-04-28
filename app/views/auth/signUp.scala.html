@@ -6,21 +6,48 @@
 @import play.api.mvc.{AnyContent, Request}
 @import views.html.auth.passwordStrength
 @import views.html.helper
+@import views.html.helper.CSPNonce
 
 @this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 @(signUpForm: Form[Data])(implicit request: Request[AnyContent], messages: Messages)
 
 @views.html.main(messages("sign.up.title")) {
     <div class="container">
-        <fieldset class="col-md-6 col-md-offset-3">
+        <div class="row justify-content-center">
             <legend>@messages("sign.up.account")</legend>
             @helper.form(action = controllers.routes.SignUpController.submit) {
                 @helper.CSRF.formField
-                @helper.inputText(signUpForm("firstName"), Symbol("_label") -> messages("first.name"), Symbol("_placeholder") -> messages("first.name"), Symbol("_class") -> "form-control input-lg")
-                @helper.inputText(signUpForm("lastName"), Symbol("_label") -> messages("last.name"), Symbol("_placeholder") -> messages("last.name"), Symbol("_class") -> "form-control input-lg")
-                @helper.inputText(signUpForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> messages("email"), Symbol("_class") -> "form-control input-lg")
-                @passwordStrength(signUpForm("password"), Symbol("_label") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
-                @helper.inputText(signUpForm("confirm"), Symbol("_label") -> messages("confirm"), Symbol("_class") -> "form-control input-lg")
+                <fieldset class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">@messages("first.name")</label>
+                        <input type="text" class="form-control" name="firstName" value="@signUpForm("firstName").value.getOrElse("")" placeholder="John" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">@messages("last.name")</label>
+                        <input type="text" class="form-control" name="lastName" value="@signUpForm("lastName").value.getOrElse("")" placeholder="Doe" required>
+                    </div>
+                </fieldset>
+                <fieldset class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label">@messages("email")</label>
+                        <input type="email" class="form-control" name="email" value="@signUpForm("email").value.getOrElse("")" placeholder="john@@doe.org" required>
+                        <small class="form-text text-muted">We will never provide your email to anyone else.</small>
+                    </div>
+                </fieldset>
+                <fieldset class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label">@messages("password")</label>
+                        <input type="password" class="form-control" name="password" value="@signUpForm("password").value.getOrElse("")" data-pwd="true">
+                    </div>
+                    <div class="col-md-12">
+                        <meter max="4" id="password-strength-meter"></meter>
+                        <p id="password-strength-text"></p>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">@messages("confirm")</label>
+                        <input type="password" class="form-control" name="confirm" value="@signUpForm("confirm").value.getOrElse("")">
+                    </div>
+                </fieldset>
                 <div class="form-group">
                     <div>
                         <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.up")</button>
@@ -30,6 +57,20 @@
                     <p>@messages("already.a.member") <a href="@controllers.routes.SignInController.view">@messages("sign.in.now")</a></p>
                 </div>
             }
-        </fieldset>
+        </div>
     </div>
+
+    <script @CSPNonce.attr>
+            window.onload = function () {
+                document.getElementById('submit').onclick = function(e) {
+                    let password = document.getElementsByName('password')[0].value;
+                    let confirm = document.getElementsByName('confirm')[0].value;
+
+                    if (password !== confirm) {
+                        alert('Password and Confirm Password must match!');
+                        e.preventDefault();
+                    }
+                }
+            }
+    </script>
 }
