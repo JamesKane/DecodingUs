@@ -2,7 +2,7 @@
 @import play.api.i18n.Messages
 @import views.html.helper._
 
-@(title: String, user: Option[models.User] = None)(content: Html)(implicit request: RequestHeader, webjars: WebJarsUtil, messages: Messages)
+@(title: String, user: Option[models.User] = None, optCC: Option[(String, String)] = None)(content: Html)(implicit request: RequestHeader, webjars: WebJarsUtil, messages: Messages)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +22,7 @@
         <div id="main">
         @content
         </div>
-        @_footer(None)
+        @_footer(optCC)
       <script @CSPNonce.attr src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
       <script @CSPNonce.attr src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
       <script @CSPNonce.attr src="@routes.Assets.versioned("javascripts/zxcvbnShim.js")" type="text/javascript"></script>

@@ -7,7 +7,7 @@ import play.silhouette.api.LogoutEvent
 import play.silhouette.api.actions.{SecuredRequest, UserAwareRequest}
 import utils.route.Calls
 
-import javax.inject.*
+import jakarta.inject.{Inject, Singleton}
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
