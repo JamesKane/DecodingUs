@@ -20,6 +20,7 @@
                 @helper.inputText(signUpForm("lastName"), Symbol("_label") -> messages("last.name"), Symbol("_placeholder") -> messages("last.name"), Symbol("_class") -> "form-control input-lg")
                 @helper.inputText(signUpForm("email"), Symbol("_type") -> "email", Symbol("_label") -> messages("email"), Symbol("_placeholder") -> messages("email"), Symbol("_class") -> "form-control input-lg")
                 @passwordStrength(signUpForm("password"), Symbol("_label") -> messages("password"), Symbol("_placeholder") -> messages("password"), Symbol("_class") -> "form-control input-lg")
+                @helper.inputText(signUpForm("confirm"), Symbol("_label") -> messages("confirm"), Symbol("_class") -> "form-control input-lg")
                 <div class="form-group">
                     <div>
                         <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("sign.up")</button>

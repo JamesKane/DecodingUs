@@ -8,7 +8,7 @@ import play.api.data.Forms._
  */
 object SignUpForm {
 
-  // Spammers may creatively construct an email with a dead link as part of the contact information.
+  // Spammers may creatively construct an email with a link as part of the contact information.
   def validate(firstName: String, lastName: String): Option[(String, String)] = {
     val combined = firstName.appendedAll(lastName).toLowerCase()
     if (combined.contains("http://") || combined.contains("https://"))
@@ -24,11 +24,12 @@ object SignUpForm {
       "firstName" -> nonEmptyText,
       "lastName" -> nonEmptyText,
       "email" -> email,
-      "password" -> nonEmptyText
+      "password" -> nonEmptyText,
+      "confirm" -> nonEmptyText
     )(Data.apply)(Data.unapply).verifying(
       "Failed!",
       fields => fields match {
-        case userData => validate(userData.firstName, userData.lastName).isDefined
+        case userData => validate(userData.firstName, userData.lastName).isDefined  && (userData.password == userData.confirm)
       }
     )
   )
@@ -45,9 +46,10 @@ object SignUpForm {
                    firstName: String,
                    lastName: String,
                    email: String,
-                   password: String)
+                   password: String,
+                   confirm: String)
   
   object Data {
-    def unapply(data: Data): Option[(String, String, String, String)] = Some((data.firstName, data.lastName, data.email, data.password))
+    def unapply(data: Data): Option[(String, String, String, String, String)] = Some((data.firstName, data.lastName, data.email, data.password, data.confirm))
   }
 }

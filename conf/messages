@@ -55,6 +55,7 @@ last.name = Last name
 full.name = Full name
 email = Email
 password = Password
+confirm = Confirm Password
 send = Send
 change = Change
 reset = Reset
