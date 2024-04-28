@@ -5,11 +5,12 @@ import com.google.inject.{AbstractModule, Provides}
 import com.typesafe.config.{Config, ConfigFactory}
 import controllers.{DefaultRememberMeConfig, DefaultSilhouetteControllerComponents, RememberMeConfig, SilhouetteControllerComponents}
 import models.daos.UserDAO
-import models.daos.impl.UserDAOImpl
+import models.daos.impl.{OAuth1InfoDAO, OAuth2InfoDAO, OpenIDInfoDAO, PasswordInfoDAO, UserDAOImpl}
 import models.services.UserService
 import models.services.impl.UserServiceImpl
 import net.codingwell.scalaguice.ScalaModule
 import play.api.Configuration
+import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.openid.OpenIdClient
 import play.api.libs.ws.WSClient
 import play.api.mvc.{Cookie, CookieHeaderEncoding}
@@ -60,10 +61,26 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
 
     // Replace this with the bindings to your concrete DAOs
     bind[DelegableAuthInfoDAO[GoogleTotpInfo]].toInstance(new InMemoryAuthInfoDAO[GoogleTotpInfo])
-    bind[DelegableAuthInfoDAO[PasswordInfo]].toInstance(new InMemoryAuthInfoDAO[PasswordInfo])
-    bind[DelegableAuthInfoDAO[OAuth1Info]].toInstance(new InMemoryAuthInfoDAO[OAuth1Info])
-    bind[DelegableAuthInfoDAO[OAuth2Info]].toInstance(new InMemoryAuthInfoDAO[OAuth2Info])
-    bind[DelegableAuthInfoDAO[OpenIDInfo]].toInstance(new InMemoryAuthInfoDAO[OpenIDInfo])
+  }
+
+  @Provides
+  def providePasswordInfo(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[PasswordInfo] = {
+    new PasswordInfoDAO(dbConfig)
+  }
+
+  @Provides
+  def provideOAuth1InfoDAO(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[OAuth1Info] = {
+    new OAuth1InfoDAO(dbConfig)
+  }
+
+  @Provides
+  def provideOAuth2InfoDAO(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[OAuth2Info] = {
+    new OAuth2InfoDAO(dbConfig)
+  }
+
+  @Provides
+  def provideOpenIDInfoDAO(dbConfig: DatabaseConfigProvider): DelegableAuthInfoDAO[OpenIDInfo] = {
+    new OpenIDInfoDAO(dbConfig)
   }
 
   /**
