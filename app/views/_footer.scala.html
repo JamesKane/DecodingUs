@@ -9,12 +9,12 @@
     </a>
 
     <ul class="nav justify-content-end">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">@messages("footer.about")</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">@messages("footer.contact")</a></li>
+        <li class="nav-item"><a href="@controllers.routes.HomeController.about" class="nav-link px-2 text-body-secondary">@messages("footer.about")</a></li>
+        <li class="nav-item"><a href="@controllers.routes.HomeController.contact" class="nav-link px-2 text-body-secondary">@messages("footer.contact")</a></li>
         <li class="nav-item"><a href="@controllers.routes.HomeController.terms" class="nav-link px-2 text-body-secondary">@messages("footer.terms")</a></li>
         <li class="nav-item"><a href="@controllers.routes.HomeController.cookieUse" class="nav-link px-2 text-body-secondary">@messages("footer.cookie-policy")</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">@messages("footer.faq")</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">@messages("footer.tiers")</a></li>
+        <li class="nav-item"><a href="@controllers.routes.HomeController.faq" class="nav-link px-2 text-body-secondary">@messages("footer.faq")</a></li>
+        <li class="nav-item"><a href="@controllers.routes.HomeController.memberTiers" class="nav-link px-2 text-body-secondary">@messages("footer.tiers")</a></li>
     </ul>
 
         <!-- This div needs to become dynamic, since it should only render on the Y-DNA and Mitochondrial DNA pages. -->

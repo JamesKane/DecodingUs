@@ -16,7 +16,11 @@ import javax.inject.*
 @Singleton
 class HomeController @Inject()(val scc: SilhouetteControllerComponents,
                                cookieView: views.html.fixed.cookieUse,
-                               termsView: views.html.fixed.terms)
+                               termsView: views.html.fixed.terms,
+                               faqView: views.html.fixed.faq,
+                               aboutView: views.html.fixed.about,
+                               contactView: views.html.fixed.contact,
+                               memberTierView: views.html.fixed.memberTier)
                               (implicit webjars: WebJarsUtil, assets: AssetsFinder) extends SilhouetteController(scc) {
 
   /**
@@ -40,12 +44,28 @@ class HomeController @Inject()(val scc: SilhouetteControllerComponents,
     eventBus.publish(LogoutEvent(request.identity, request))
     authenticatorService.discard(request.authenticator, result)
   }
-  
+
   def terms = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
     Ok(termsView(request.identity))
   }
 
   def cookieUse = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
     Ok(cookieView(request.identity))
+  }
+
+  def faq = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    Ok(faqView(request.identity))
+  }
+
+  def about = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    Ok(aboutView(request.identity))
+  }
+
+  def contact = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    Ok(contactView(request.identity))
+  }
+
+  def memberTiers = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    Ok(memberTierView(request.identity))
   }
 }

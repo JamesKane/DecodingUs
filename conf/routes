@@ -36,8 +36,12 @@ GET     /account/activate/:token         controllers.ActivateAccountController.a
 GET     /user                            controllers.UserController.index
 POST    /user                            controllers.UserController.update
 
+GET     /about                           controllers.HomeController.about
 GET     /terms                           controllers.HomeController.terms
 GET     /cookie-use                      controllers.HomeController.cookieUse
+GET     /faq                             controllers.HomeController.faq
+GET     /contact                         controllers.HomeController.contact
+GET     /member-tiers                    controllers.HomeController.memberTiers
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -1,0 +1,14 @@
+@import controllers.AssetsFinder
+@import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+
+
+@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(user: Option[models.User])(implicit request: RequestHeader, messages: Messages)
+
+@views.html.main(messages("footer.contact"), user) {
+    <div class="container">
+        <h1>@messages("footer.contact")</h1>
+    </div>
+}
