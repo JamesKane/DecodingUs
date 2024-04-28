@@ -1,20 +1,22 @@
 package controllers
 
 import org.webjars.play.WebJarsUtil
-
-import javax.inject.*
 import play.api.*
 import play.api.mvc.*
 import play.silhouette.api.LogoutEvent
-import play.silhouette.api.actions.SecuredRequest
+import play.silhouette.api.actions.{SecuredRequest, UserAwareRequest}
 import utils.route.Calls
+
+import javax.inject.*
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val scc: SilhouetteControllerComponents)(implicit webjars: WebJarsUtil, assets: AssetsFinder) extends SilhouetteController(scc) {
+class HomeController @Inject()(val scc: SilhouetteControllerComponents,
+                               cookieView: views.html.fixed.cookieUse)
+                              (implicit webjars: WebJarsUtil, assets: AssetsFinder) extends SilhouetteController(scc) {
 
   /**
    * Create an Action to render an HTML page.
@@ -36,5 +38,9 @@ class HomeController @Inject()(val scc: SilhouetteControllerComponents)(implicit
     val result = Redirect(Calls.home)
     eventBus.publish(LogoutEvent(request.identity, request))
     authenticatorService.discard(request.authenticator, result)
+  }
+
+  def cookieUse = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    Ok(cookieView(request.identity))
   }
 }

@@ -1,0 +1,61 @@
+@import controllers.AssetsFinder
+@import org.webjars.play.WebJarsUtil
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+
+
+@this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@(user: Option[models.User])(implicit request: RequestHeader, messages: Messages)
+
+@views.html.main(messages("cookie-use"), user) {
+    <div class="container">
+        <div id="cookie-policy">
+
+            <h1>Cookie Use Policy</h1>
+
+            <p>Effective Date: 28-Mar-2024</p>
+
+            <p>This Cookie Use Policy ("Policy") explains how Decoding Us ("we," "us," or "our") uses cookies and similar technologies on our website located at https://decoding.us.com (the "Website").</p>
+
+            <h2>What are Cookies?</h2>
+
+            <p>Cookies are small data files that are placed on your device (computer, phone, tablet, etc.) when you visit a website. Cookies help the website remember information about your visit, such as your preferred language and other settings, making your next visit easier and the site more useful to you.</p>
+
+            <h2>What Types of Cookies Do We Use?</h2>
+
+            <p>We use the following types of cookies on our website:</p>
+
+            <ul>
+                <li>Strictly Necessary Cookies: These cookies are essential for you to navigate the Website and use its features, such as accessing secure areas of the Website or remembering your login information. Without these cookies, we cannot provide certain services or functionalities.</li>
+                <li>Preference Cookies: These cookies allow the Website to remember your preferences, such as your preferred language or region. This allows us to personalize your experience on the Website.</li>
+            </ul>
+
+            <p>We do not use cookies for:</p>
+
+            <ul>
+                <li>Analytics: We do not use cookies to track your browsing activity across the internet or to build a profile of your interests for advertising purposes.</li>
+            </ul>
+            <h2>How to Control Cookies</h2>
+
+            <p>You can control and/or delete cookies as desired. You can find out more by accessing your browser settings. Here are links to instructions for popular browsers:</p>
+
+            <ul>
+                <li>Google Chrome: <a href="https://support.google.com/chrome/answer/95647?hl=en&sjid=12583209803197227729-NC" target="_blank">URL how to delete cookies in chrome ON Google support.google.com</a></li>
+                <li>Mozilla Firefox: <a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox" target="_blank">URL how to delete cookies in firefox ON Mozilla support.mozilla.org</a></li>
+                <li>Apple Safari: <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" target="_blank">URL delete cookies mac safari ON Apple support.apple.com</a></li>
+                <li>Microsoft Edge: <a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank">URL how to clear cookies in microsoft edge ON Microsoft microsoft.com</a></li>
+            </ul>
+
+            <p>Please note that deleting cookies may impact your experience on the Website. For example, you may need to log in again or re-select your preferences each time you visit the site.</p>
+
+            <h2>Changes to the Cookie Use Policy</h2>
+
+            <p>We may update this Cookie Use Policy from time to time. We will notify you of any changes by posting the new Cookie Use Policy on the Website. It is recommended that you review this Cookie Use Policy periodically for any updates.</p>
+
+            <h2>Contact Us</h2>
+
+            <p>If you have any questions about this Cookie Use Policy, please contact us by the contact form.</p>
+
+        </div>
+    </div>
+}
