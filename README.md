@@ -9,7 +9,8 @@ The codebase reuses learnings from prior projects [YDNA-Warehouse](https://ydna-
 * [Play Framework](https://www.playframework.com) - The High Velocity Web Framework For Java and Scala
 * [Scala](https://scala-lang.org) - A strong statically typed high-level language that supports OO and functional programming
 * [PostgreSQL](https://www.postgresql.org) - An Open Source Relational Database
-* [AWS S3](https://aws.amazon.com/pm/serv-s3/) - Amazon Cloud Object Storage
+* [AWS S3](https://aws.amazon.com/pm/serv-s3) - Amazon Cloud Object Storage
+* [HTSJDK](https://samtools.github.io/htsjdk) - A Java API for high-throughput sequencing data (HTS) formats
 
 ### Local Development settings
 ```
