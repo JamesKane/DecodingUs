@@ -30,8 +30,10 @@ class HomeController @Inject()(val scc: SilhouetteControllerComponents,
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
+  def index() = silhouette.UserAwareAction { implicit request: UserAwareRequest[EnvType, AnyContent] =>
+    request.identity.map { id =>
+      Redirect(Calls.profile)
+    }.getOrElse(Ok(views.html.index()))
   }
 
   /**

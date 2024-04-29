@@ -11,4 +11,6 @@ object Calls {
 
   /** @return The URL to redirect to when an authentication fails. */
   def signin: Call = controllers.routes.SignInController.view
+  
+  def profile: Call = controllers.routes.UserController.index
 }
