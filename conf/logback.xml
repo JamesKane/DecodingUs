@@ -10,10 +10,14 @@
   <import class="ch.qos.logback.core.FileAppender"/>
   <import class="ch.qos.logback.core.ConsoleAppender"/>
 
-  <appender name="FILE" class="FileAppender">
-    <file>${application.home:-.}/logs/application.log</file>
-    <encoder class="PatternLayoutEncoder">
-      <charset>UTF-8</charset>
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${application.home}/logs/application.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover with 90 days history -->
+      <fileNamePattern>${application.home}/logs/application.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <maxHistory>90</maxHistory>
+    </rollingPolicy>
+    <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{36}) %magenta(%X{pekkoSource}) %msg%n</pattern>
     </encoder>
   </appender>
@@ -41,6 +45,8 @@
 
   <logger name="play" level="INFO"/>
   <logger name="application" level="DEBUG"/>
+
+  <logger name="utils.filters" level="INFO"/>
 
   <logger name="slick.jdbc.JdbcBackend.statement"         level="debug" />
   <logger name="slick.jdbc.JdbcBackend.parameter"         level="debug" />
