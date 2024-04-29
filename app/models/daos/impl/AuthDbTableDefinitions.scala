@@ -4,7 +4,7 @@ import play.silhouette.api.LoginInfo
 import slick.jdbc.JdbcProfile
 import slick.lifted.ProvenShape
 
-import java.time.ZonedDateTime
+import java.sql.Timestamp
 import java.util.UUID
 
 trait AuthDbTableDefinitions {
@@ -19,7 +19,7 @@ trait AuthDbTableDefinitions {
    * @param userID The unique identifier of the user associated with the token.
    * @param expiry The expiration date and time of the token.
    */
-  case class DbAuthToken(id: UUID, userID: UUID, expiry: ZonedDateTime)
+  case class DbAuthToken(id: UUID, userID: UUID, expiry: Timestamp)
 
   /**
    * Represents a database table for storing authentication tokens.
@@ -29,7 +29,7 @@ trait AuthDbTableDefinitions {
   class AuthTokens(tag: Tag) extends Table[DbAuthToken](tag, Some("auth"), "token") {
     def id: Rep[UUID] = column[UUID]("id", O.PrimaryKey)
     def userId: Rep[UUID] = column[UUID]("user_id")
-    def expiry: Rep[ZonedDateTime] = column[ZonedDateTime]("expiry")
+    def expiry: Rep[Timestamp] = column[Timestamp]("expiry")
 
     def * : ProvenShape[DbAuthToken] = (id, userId, expiry) <> (DbAuthToken.apply, DbAuthToken.unapply)
   }
@@ -289,7 +289,7 @@ trait AuthDbTableDefinitions {
    * @param loginInfoId The database identifier of the associated login information.
    */
   case class DbGoogleTotpInfo(id: Int, sharedKey: String, loginInfoId: Long)
-  
+
   /**
    * Represents the mapping of the GoogleTotpInfo table in the database.
    *
@@ -311,7 +311,7 @@ trait AuthDbTableDefinitions {
    * @param qrUrl      The URL representing the QR code for scanning to set up the TOTP authenticator app.
    */
   case class DbGoogleTotpCredentials(id: Int, totpInfoId: Int, qrUrl: String)
-  
+
   /**
    * Represents a table that stores Google TOTP credentials.
    *
@@ -332,7 +332,7 @@ trait AuthDbTableDefinitions {
    * @param passwordInfoId The password info ID associated with the scratch codes
    */
   case class DbTotpInfoScratchCodes(googleTotpId: Int, passwordInfoId: Int)
-  
+
   /**
    * Represents the table structure and schema for the `totp_info_scratch_codes` table.
    *
@@ -346,7 +346,7 @@ trait AuthDbTableDefinitions {
 
     def idx = primaryKey("totp_cred_scratch_codes_pkey", (googleTotpId, passwordInfoId))
   }
-  
+
   /**
    * Represents a database entity for storing scratch codes associated with a Google
    * TOTP credential.
@@ -356,7 +356,7 @@ trait AuthDbTableDefinitions {
    * @param scratchCode      The scratch code string.
    */
   case class DbTotpCredScratchCodes(id: Int, googleTotpCredId: Int, scratchCode: String)
-  
+
   /**
    * Table representing the "totp_cred_scratch_codes" table in the "auth" schema.
    *
@@ -366,7 +366,7 @@ trait AuthDbTableDefinitions {
     def id = column[Int]("id", O.PrimaryKey)
     def googleTotpCredId = column[Int]("google_totp_cred_id")
     def scratchCode = column[String]("scratch_code")
-    
+
     def * = (id, googleTotpCredId, scratchCode).mapTo[DbTotpCredScratchCodes]
   }
 

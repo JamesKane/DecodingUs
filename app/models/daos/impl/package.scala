@@ -1,9 +1,11 @@
 package models.daos
 
 import slick.jdbc.{GetResult, PositionedParameters, SetParameter}
+import slick.memory.MemoryProfile
+import slick.memory.MemoryProfile.MappedColumnType
 
 import java.sql.JDBCType
-import java.time.{ZoneId, ZonedDateTime}
+import java.time.{ZoneId, LocalDateTime}
 import java.util.UUID
 
 package object impl {
@@ -14,6 +16,5 @@ package object impl {
   }
 
   implicit val uuidGetResult: GetResult[UUID] = GetResult(r => UUID.fromString(r.nextString()))
-  implicit val getZonedDateTime: GetResult[ZonedDateTime] = GetResult(r =>
-    ZonedDateTime.ofInstant(r.nextTimestamp().toInstant, ZoneId.systemDefault()))
+
 }
