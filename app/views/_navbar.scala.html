@@ -21,21 +21,22 @@
             </ul>
             <ul class="navbar-nav ms-auto">
             @user.map { u =>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">@messages("navbar.home")</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@u.name</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">@messages("navbar.profile")</a>
-                        <a class="dropdown-item" href="#">@messages("navbar.messages")</a>
-                        @if(u.loginInfo.providerID == play.silhouette.impl.providers.CredentialsProvider.ID) {
-                            <a class="dropdown-item" href="#">@messages("change.password")</a>
-                        }
-                        <a class="dropdown-item" href="#">@messages("sign.out")</a>
-                    </div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">@messages("navbar.home")</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @u.name
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="@controllers.routes.UserController.index">@messages("navbar.profile")</a></li>
+                    <li><a class="dropdown-item" href="#">@messages("navbar.messages")</a></li>
+                    @if(u.loginInfo.providerID == play.silhouette.impl.providers.CredentialsProvider.ID) {
+                        <li><a class="dropdown-item" href="@controllers.routes.ChangePasswordController.view">@messages("change.password")</a></li>
+                    }
+                    <li><a class="dropdown-item" href="@controllers.routes.HomeController.signOut()">@messages("sign.out")</a></li>
+                </ul>
+            </li>
             }.getOrElse {
                 <li class="nav-item">
                     <a class="nav-link" href="@controllers.routes.SignInController.view">@messages("sign.in")</a>

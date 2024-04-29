@@ -31,6 +31,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test,
   "org.webjars" %% "webjars-play" % "3.0.1",
   "org.webjars" % "bootstrap" % "5.3.3",
+  "org.webjars" % "popper.js" % "2.11.7",
   "org.webjars.npm" % "htmx.org" % "1.9.12"
 )
 
